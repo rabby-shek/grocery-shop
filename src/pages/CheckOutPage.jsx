@@ -4,8 +4,8 @@ const CheckOutPage = () => {
   return (
     <>
       <section
-        class="breadcrumb-section set-bg"
-        data-setbg="/assets/img/breadcrumb.jpg"
+        class="breadcrumb-section "
+        style={{backgroundImage: "url('/assets/img/breadcrumb.jpg')"}}
       >
         <div class="container">
           <div class="row">
