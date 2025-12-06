@@ -10,13 +10,13 @@ const Footer = () => {
             <div className="footer__about">
               <div className="footer__about__logo">
                 <NavLink to="/">
-                   <h2 style={{fontWeight: "bold"}}>Bloomy</h2>
+                  <h2 style={{ fontWeight: "bold" }}>Bloomy</h2>
                 </NavLink>
               </div>
               <ul>
-                <li>Address: 60-49 Road 11378 New York</li>
-                <li>Phone: +65 11.188.888</li>
-                <li>Email: hello@colorlib.com</li>
+                <li>Address: Matuail, Jatrabari, Dhaka</li>
+                <li>Phone: 01969128132</li>
+                <li>Email: bloomy@gmail.com</li>
               </ul>
             </div>
           </div>
@@ -27,9 +27,7 @@ const Footer = () => {
                 <li>
                   <a href="#">About Us</a>
                 </li>
-                <li>
-                  <a href="#">About Our Shop</a>
-                </li>
+
                 <li>
                   <a href="#">Secure Shopping</a>
                 </li>
@@ -100,11 +98,7 @@ const Footer = () => {
               <div className="footer__copyright__text">
                 <p>
                   {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                  Copyright © All rights reserved | This template is made with{" "}
-                  <i className="fa fa-heart" aria-hidden="true" /> by{" "}
-                  <a href="https://colorlib.com" target="_blank">
-                    Colorlib
-                  </a>
+                  Copyright © All rights reserved Walid Hasan
                   {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
                 </p>
               </div>
