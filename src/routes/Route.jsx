@@ -6,6 +6,7 @@ import ContactPage from "../pages/ContactPage";
 import CheckOutPage from "../pages/CheckOutPage";
 import ShopPage from "../pages/ShopPage";
 import ProductDetails from "../pages/ProductDetails";
+import AdminLogin from "../pages/admin/AdminLogin";
 const Route = createBrowserRouter([
   {
     path: "/",
@@ -37,5 +38,9 @@ const Route = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "admin/auth",
+    element: <AdminLogin />
+  }
 ]);
 export default Route;
