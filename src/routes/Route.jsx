@@ -7,6 +7,11 @@ import CheckOutPage from "../pages/CheckOutPage";
 import ShopPage from "../pages/ShopPage";
 import ProductDetails from "../pages/ProductDetails";
 import AdminLogin from "../pages/admin/AdminLogin";
+import AdminLayout from "../layouts/AdminLayout";
+import Dashboard from "../pages/admin/Dashboard";
+import Users from "../pages/admin/Users";
+import Category from "../pages/admin/Category";
+
 const Route = createBrowserRouter([
   {
     path: "/",
@@ -39,8 +44,26 @@ const Route = createBrowserRouter([
     ],
   },
   {
+    path: "admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "users",
+        element: <Users />,
+      },
+      {
+        path: "categories",
+        element: <Category />,
+      },
+    ],
+  },
+  {
     path: "admin/auth",
-    element: <AdminLogin />
-  }
+    element: <AdminLogin />,
+  },
 ]);
 export default Route;

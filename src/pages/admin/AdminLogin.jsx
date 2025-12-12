@@ -47,11 +47,7 @@ const AdminLogin = () => {
             Login
           </button>
         </form>
-        <div className="text-center mt-3">
-          <a href="#" className="text-decoration-none">
-            Forgot password?
-          </a>
-        </div>
+      
       </div>
     </div>
   );
