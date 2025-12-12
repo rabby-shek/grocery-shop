@@ -13,7 +13,6 @@ const AdminLayout = () => {
       <div className="flex-grow-1 d-flex flex-column">
         {/* Header */}
         <Header />
-
         {/* Page Content */}
         <main className="p-4 flex-grow-1 bg-light overflow-auto">
           <Outlet />
