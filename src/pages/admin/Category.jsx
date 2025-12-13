@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Create an Axios instance
+// Axios instance
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/app/", // change to your backend base URL
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:8000/api/app",
 });
 
 const Category = () => {
@@ -25,7 +22,7 @@ const Category = () => {
   const visibleCategories = categories.slice(firstIndex, lastIndex);
   const totalPages = Math.ceil(categories.length / itemsPerPage);
 
-  // Fetch categories on mount
+  // Fetch categories
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -33,77 +30,94 @@ const Category = () => {
   const fetchCategories = async () => {
     try {
       const res = await api.get("/get-all-categories");
-      if (res.data.success) setCategories(res.data.data);
-    } catch (error) {
-      console.error(error);
-      alert("Failed to fetch categories");
+      if (res.data.success) {
+        setCategories(res.data.data);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to load categories");
     }
   };
 
-  // Image preview
+  // Image change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     setImageFile(file);
     setPreview(URL.createObjectURL(file));
   };
 
-  // Add / Update
+  // Create / Update submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || (!preview && !editId)) return alert("Enter name and image");
+
+    if (!name) {
+      alert("Category name required");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("categoryName", name);
-    if (imageFile) formData.append("image", imageFile);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
 
     try {
       if (editId) {
-        // Update
+        // UPDATE
         const res = await api.put(`/update-category/${editId}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+
         if (res.data.success) {
           fetchCategories();
-          cancelUpdate();
+          resetForm();
         }
       } else {
-        // Create
+        // CREATE
         const res = await api.post("/create-category", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+
         if (res.data.success) {
           fetchCategories();
-          setName("");
-          setPreview(null);
-          setImageFile(null);
+          resetForm();
         }
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       alert("Operation failed");
     }
   };
 
+  // Edit category
   const handleEdit = (cat) => {
     setEditId(cat._id);
     setName(cat.categoryName);
-    setPreview(cat.image);
-    setImageFile(null); // optional: only replace if user selects new image
+
+    // IMPORTANT FIX: full backend URL
+    setPreview(`http://localhost:8000${cat.image}`);
+
+    setImageFile(null);
   };
 
+  // Delete
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure to delete this category?")) return;
+    if (!window.confirm("Delete this category?")) return;
+
     try {
       const res = await api.delete(`/delete-category/${id}`);
-      if (res.data.success) fetchCategories();
-    } catch (error) {
-      console.error(error);
-      alert("Failed to delete category");
+      if (res.data.success) {
+        fetchCategories();
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Delete failed");
     }
   };
 
-  const cancelUpdate = () => {
+  const resetForm = () => {
     setEditId(null);
     setName("");
     setPreview(null);
@@ -111,15 +125,16 @@ const Category = () => {
   };
 
   return (
-    <div className="container">
-      <h3 className="mb-4">Categories</h3>
+    <div className="container mt-4">
+      <h3 className="mb-3">Categories</h3>
 
-      {/* Left-Right Form */}
+      {/* Form */}
       <div className="card p-3 mb-4 shadow-sm">
         <h5>{editId ? "Update Category" : "Add Category"}</h5>
+
         <form onSubmit={handleSubmit}>
           <div className="row align-items-center">
-            {/* Left: Inputs */}
+            {/* Left */}
             <div className="col-md-6">
               <div className="mb-3">
                 <label className="form-label">Category Name</label>
@@ -141,27 +156,31 @@ const Category = () => {
               </div>
 
               <button className="btn btn-primary me-2">
-                {editId ? "Update Category" : "Add Category"}
+                {editId ? "Update" : "Add"}
               </button>
+
               {editId && (
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={cancelUpdate}
+                  onClick={resetForm}
                 >
                   Cancel
                 </button>
               )}
             </div>
 
-            {/* Right: Preview */}
+            {/* Right Preview */}
             <div className="col-md-6 text-center">
               {preview ? (
                 <img
                   src={preview}
                   alt="Preview"
-                  className="rounded"
-                  style={{ maxWidth: "80%", maxHeight: "200px" }}
+                  style={{
+                    maxWidth: "80%",
+                    maxHeight: "200px",
+                    borderRadius: "8px",
+                  }}
                 />
               ) : (
                 <div className="border rounded p-5 text-muted">
@@ -173,7 +192,7 @@ const Category = () => {
         </form>
       </div>
 
-      {/* Category Table */}
+      {/* Table */}
       <div className="card shadow-sm">
         <div className="card-body">
           <table className="table table-bordered">
@@ -201,20 +220,18 @@ const Category = () => {
                   </td>
                   <td>{cat.categoryName}</td>
                   <td>
-                    <div style={{ display: "inline-flex", gap: "5px" }}>
-                      <button
-                        className="btn btn-warning btn-sm"
-                        onClick={() => handleEdit(cat)}
-                      >
-                        Update
-                      </button>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleDelete(cat._id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    <button
+                      className="btn btn-warning btn-sm me-1"
+                      onClick={() => handleEdit(cat)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(cat._id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -222,11 +239,9 @@ const Category = () => {
           </table>
 
           {/* Pagination */}
-          <nav className="d-flex justify-content-center mt-3">
+          <nav className="d-flex justify-content-center">
             <ul className="pagination">
-              <li
-                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-              >
+              <li className={`page-item ${currentPage === 1 && "disabled"}`}>
                 <button
                   className="page-link"
                   onClick={() => setCurrentPage(currentPage - 1)}
@@ -253,7 +268,7 @@ const Category = () => {
 
               <li
                 className={`page-item ${
-                  currentPage === totalPages ? "disabled" : ""
+                  currentPage === totalPages && "disabled"
                 }`}
               >
                 <button

@@ -21,6 +21,11 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-item mb-2 bg-dark">
+          <Link className="nav-link text-white" to="/admin/products">
+            Products
+          </Link>
+        </li>
+        <li className="nav-item mb-2 bg-dark">
           <Link className="nav-link text-white" to="/admin-settings">
             Settings
           </Link>
