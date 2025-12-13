@@ -208,7 +208,11 @@ const Category = () => {
             </thead>
 
             <tbody>
-              <tr>{visibleCategories.length === 0 && <h3 className="text-center">No Data Found</h3>}</tr>
+              <tr>
+                {visibleCategories.length === 0 && (
+                  <h3 className="text-center">No Data Found</h3>
+                )}
+              </tr>
               {visibleCategories.map((cat, idx) => (
                 <tr key={cat._id}>
                   <td>{firstIndex + idx + 1}</td>
@@ -224,7 +228,7 @@ const Category = () => {
                   <td>{cat.categoryName}</td>
                   <td>
                     <button
-                    style={{marginRight: "10px"}}
+                      style={{ marginRight: "10px" }}
                       className="btn btn-warning btn-sm me-1"
                       onClick={() => handleEdit(cat)}
                     >
