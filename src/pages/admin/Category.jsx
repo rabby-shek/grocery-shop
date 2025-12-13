@@ -155,19 +155,21 @@ const Category = () => {
                 />
               </div>
 
-              <button className="btn btn-primary me-2">
-                {editId ? "Update" : "Add"}
-              </button>
-
-              {editId && (
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={resetForm}
-                >
-                  Cancel
+              <div style={{ display: "flex", gap: "10px" }}>
+                <button className="btn btn-primary me-2">
+                  {editId ? "Update" : "Add"}
                 </button>
-              )}
+
+                {editId && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={resetForm}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Right Preview */}
@@ -206,6 +208,7 @@ const Category = () => {
             </thead>
 
             <tbody>
+              <tr>{visibleCategories.length === 0 && <h3 className="text-center">No Data Found</h3>}</tr>
               {visibleCategories.map((cat, idx) => (
                 <tr key={cat._id}>
                   <td>{firstIndex + idx + 1}</td>
@@ -221,6 +224,7 @@ const Category = () => {
                   <td>{cat.categoryName}</td>
                   <td>
                     <button
+                    style={{marginRight: "10px"}}
                       className="btn btn-warning btn-sm me-1"
                       onClick={() => handleEdit(cat)}
                     >

@@ -11,6 +11,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../pages/admin/Dashboard";
 import Users from "../pages/admin/Users";
 import Category from "../pages/admin/Category";
+import Products from "../pages/admin/Products";
 
 const Route = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const Route = createBrowserRouter([
       {
         path: "categories",
         element: <Category />,
+      },
+      {
+        path: "products",
+        element: <Products />,
       },
     ],
   },
