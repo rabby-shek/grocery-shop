@@ -105,9 +105,9 @@ const Header = () => {
                     </div>
 
                     <div className="header__top__right__auth">
-                      <NavLink to="/user-login">
+                      <a href="#">
                         <i className="fa fa-user" /> Login
-                      </NavLink>
+                      </a>
                     </div>
                   </div>
                 </div>
