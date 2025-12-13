@@ -132,11 +132,7 @@ const Header = () => {
                       <NavLink to="/">Home</NavLink>
                     </li>
 
-                    <li
-                      className={location.pathname === "/shop" ? "active" : ""}
-                    >
-                      <NavLink to="/shop">Shop</NavLink>
-                    </li>
+                   
 
                     <li
                       className={
