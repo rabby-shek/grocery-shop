@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -89,9 +90,9 @@ const HeroSection = () => {
                   100% Organic
                 </h2>
                 <p>Free Pickup and Delivery Available</p>
-                <a href="#" className="primary-btn">
+                <NavLink to="/shop" className="primary-btn">
                   SHOP NOW
-                </a>
+                </NavLink>
               </div>
             </div>
           </div>

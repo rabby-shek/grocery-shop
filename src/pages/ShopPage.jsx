@@ -160,6 +160,9 @@ const ShopPage = () => {
                         className="product__item__pic"
                         style={{
                           backgroundImage: `url(http://localhost:8000${product.image})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                          backgroundSize: "contain"
                         }}
                       >
                         <ul className="product__item__pic__hover">

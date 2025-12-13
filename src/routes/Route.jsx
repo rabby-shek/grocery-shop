@@ -13,6 +13,7 @@ import Users from "../pages/admin/Users";
 import Category from "../pages/admin/Category";
 import Products from "../pages/admin/Products";
 import PrivateAdminRoute from "./PrivateAdminRoute";
+import UserLogin from "../pages/UserLogin";
 const Route = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +42,10 @@ const Route = createBrowserRouter([
       {
         path: "product-details",
         element: <ProductDetails />,
+      },
+      {
+        path: "user-login",
+        element: <UserLogin />,
       },
     ],
   },
