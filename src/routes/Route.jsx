@@ -12,7 +12,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import Users from "../pages/admin/Users";
 import Category from "../pages/admin/Category";
 import Products from "../pages/admin/Products";
-
+import PrivateAdminRoute from "./PrivateAdminRoute";
 const Route = createBrowserRouter([
   {
     path: "/",
@@ -49,20 +49,13 @@ const Route = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
-      {
-        path: "users",
-        element: <Users />,
-      },
-      {
-        path: "categories",
-        element: <Category />,
-      },
-      {
-        path: "products",
-        element: <Products />,
+        element: <PrivateAdminRoute />, // Protect all children inside this
+        children: [
+          { path: "dashboard", element: <Dashboard /> },
+          { path: "users", element: <Users /> },
+          { path: "categories", element: <Category /> },
+          { path: "products", element: <Products /> },
+        ],
       },
     ],
   },
