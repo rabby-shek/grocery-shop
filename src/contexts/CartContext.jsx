@@ -12,41 +12,68 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // =========================
+  // ADD TO CART (FIXED)
+  // =========================
   const addToCart = (product) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find(
+        (item) => item._id === product._id
+      );
+
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: (item.quantity || 1) + 1 }
+          item._id === product._id
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         );
-      } else {
-        return [...prev, { ...product, quantity: 1 }];
       }
+
+      return [
+        ...prev,
+        {
+          ...product,
+          price: Number(product.price), // 🔥 VERY IMPORTANT
+          quantity: 1,
+        },
+      ];
     });
   };
 
+  // =========================
+  // REMOVE
+  // =========================
   const removeFromCart = (id) =>
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    setCart((prev) => prev.filter((item) => item._id !== id));
 
+  // =========================
+  // CLEAR
+  // =========================
   const clearCart = () => setCart([]);
 
-  // ✅ Quantity Update Function
+  // =========================
+  // UPDATE QUANTITY
+  // =========================
   const updateQuantity = (id, qty) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.id === id
+        item._id === id
           ? { ...item, quantity: qty < 1 ? 1 : qty }
           : item
       )
     );
   };
 
-  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+  // =========================
+  // TOTALS
+  // =========================
+  const totalItems = cart.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
 
   const totalPrice = cart.reduce(
-    (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
 
@@ -57,9 +84,9 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         clearCart,
+        updateQuantity,
         totalItems,
         totalPrice,
-        updateQuantity, // <-- added here
       }}
     >
       {children}

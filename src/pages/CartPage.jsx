@@ -5,7 +5,7 @@ const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
 
   const subtotal = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + Number(item.price) * item.quantity,
     0
   );
 
@@ -25,19 +25,20 @@ const CartPage = () => {
                     <th />
                   </tr>
                 </thead>
+
                 <tbody>
                   {cart.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="text-center">
+                      <td colSpan="5" className="text-center">
                         Your cart is empty
                       </td>
                     </tr>
                   ) : (
                     cart.map((item) => (
-                      <tr key={item.id}>
+                      <tr key={item._id}>
                         <td className="shoping__cart__item">
                           <img
-                            src={item.img}
+                            src={`http://localhost:8000${item.image}`}
                             alt={item.name}
                             style={{ width: "80px" }}
                           />
@@ -45,7 +46,7 @@ const CartPage = () => {
                         </td>
 
                         <td className="shoping__cart__price">
-                          ${item.price.toFixed(2)}
+                          ${Number(item.price).toFixed(2)}
                         </td>
 
                         <td className="shoping__cart__quantity">
@@ -53,12 +54,12 @@ const CartPage = () => {
                             <div className="pro-qty">
                               <input
                                 type="number"
-                                min={1}
+                                min="1"
                                 value={item.quantity}
                                 onChange={(e) =>
                                   updateQuantity(
-                                    item.id,
-                                    parseInt(e.target.value)
+                                    item._id,
+                                    Number(e.target.value)
                                   )
                                 }
                               />
@@ -67,12 +68,12 @@ const CartPage = () => {
                         </td>
 
                         <td className="shoping__cart__total">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          ${(Number(item.price) * item.quantity).toFixed(2)}
                         </td>
 
                         <td className="shoping__cart__item__close">
                           <button
-                            onClick={() => removeFromCart(item.id)}
+                            onClick={() => removeFromCart(item._id)}
                             style={{
                               background: "none",
                               border: "none",
@@ -91,39 +92,8 @@ const CartPage = () => {
           </div>
         </div>
 
-        {/* Buttons */}
+        {/* Cart Summary */}
         <div className="row mt-4">
-          <div className="col-lg-12">
-            <div className="shoping__cart__btns">
-              <a href="#" className="primary-btn cart-btn">
-                CONTINUE SHOPPING
-              </a>
-              <button className="primary-btn cart-btn cart-btn-right">
-                <span className="icon_loading" />
-                Update Cart
-              </button>
-            </div>
-          </div>
-
-          <div className="col-lg-6">
-            <div className="shoping__continue">
-              <div className="shoping__discount">
-                <h5>Discount Codes</h5>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    alert("Coupon applied!");
-                  }}
-                >
-                  <input type="text" placeholder="Enter your coupon code" />
-                  <button type="submit" className="site-btn">
-                    APPLY COUPON
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-
           <div className="col-lg-6">
             <div className="shoping__checkout">
               <h5>Cart Total</h5>

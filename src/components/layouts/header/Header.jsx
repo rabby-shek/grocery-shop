@@ -136,19 +136,13 @@ const Header = () => {
 
                     <li
                       className={
-                        location.pathname === "/checkout" ? "active" : ""
+                        location.pathname === "/shop" ? "active" : ""
                       }
                     >
-                      <NavLink to="/checkout">Checkout</NavLink>
+                      <NavLink to="/shop">Shop</NavLink>
                     </li>
 
-                    <li
-                      className={
-                        location.pathname === "/product-details" ? "active" : ""
-                      }
-                    >
-                      <NavLink to="/product-details">Details</NavLink>
-                    </li>
+                  
 
                     <li
                       className={
