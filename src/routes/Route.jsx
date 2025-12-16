@@ -14,6 +14,9 @@ import Category from "../pages/admin/Category";
 import Products from "../pages/admin/Products";
 import PrivateAdminRoute from "./PrivateAdminRoute";
 import UserLogin from "../pages/UserLogin";
+import UserRegistration from "../pages/user-auth/UserRegistration";
+import Login from "../pages/user-auth/Login";
+import VerifyOtp from "../pages/user-auth/VerifyOtp";
 const Route = createBrowserRouter([
   {
     path: "/",
@@ -67,6 +70,18 @@ const Route = createBrowserRouter([
   {
     path: "admin/auth",
     element: <AdminLogin />,
+  },
+  {
+    path: "user/auth/registration",
+    element: <UserRegistration />,
+  },
+  {
+    path: "user/auth/login",
+    element: <Login />,
+  },
+  {
+    path: "/user/auth/verify-otp",
+    element: <VerifyOtp />,
   },
 ]);
 export default Route;

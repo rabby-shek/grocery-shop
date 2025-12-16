@@ -1,7 +1,8 @@
 import React from "react";
 import { useCart } from "../contexts/CartContext";
-
+import { NavLink, useNavigate } from "react-router-dom";
 const CartPage = () => {
+  let navigate = useNavigate();
   const { cart, removeFromCart, updateQuantity } = useCart();
 
   const subtotal = cart.reduce(
@@ -105,9 +106,9 @@ const CartPage = () => {
                   Total <span>${subtotal.toFixed(2)}</span>
                 </li>
               </ul>
-              <a href="#" className="primary-btn">
+              <NavLink to="/checkout" className="primary-btn">
                 PROCEED TO CHECKOUT
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>

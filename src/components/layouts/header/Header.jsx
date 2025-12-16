@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../../../contexts/CartContext";
-
+import useUserAuth from "../../../hooks/useUserAuth";
 const Header = () => {
   const location = useLocation();
   const { cart } = useCart();
+  const { isAuthenticated, getUser, logout } = useUserAuth();
 
   // Total items in cart
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -32,6 +33,8 @@ const Header = () => {
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
+
+  
 
   return (
     <>
@@ -105,9 +108,20 @@ const Header = () => {
                     </div>
 
                     <div className="header__top__right__auth">
-                      <a href="#">
-                        <i className="fa fa-user" /> Login
-                      </a>
+                      {isAuthenticated() ? (
+                        <div className="d-flex align-items-center">
+                          <span style={{ marginRight: "10px" }}>
+                            <i className="fa fa-user" style={{ marginRight: "10px" }} />{getUser().username ? getUser().username : ""}
+                          </span>
+                          <button className="btn btn-dark" onClick={logout}>
+                            Logout
+                          </button>
+                        </div>
+                      ) : (
+                        <NavLink to="/user/auth/login">
+                          <i className="fa fa-user" /> Login
+                        </NavLink>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -132,17 +146,11 @@ const Header = () => {
                       <NavLink to="/">Home</NavLink>
                     </li>
 
-                   
-
                     <li
-                      className={
-                        location.pathname === "/shop" ? "active" : ""
-                      }
+                      className={location.pathname === "/shop" ? "active" : ""}
                     >
                       <NavLink to="/shop">Shop</NavLink>
                     </li>
-
-                  
 
                     <li
                       className={
