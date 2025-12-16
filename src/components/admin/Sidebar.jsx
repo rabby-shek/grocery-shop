@@ -26,10 +26,11 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-item mb-2 bg-dark">
-          <Link className="nav-link text-white" to="/admin-settings">
-            Settings
+          <Link className="nav-link text-white" to="/admin/orders">
+            Orders
           </Link>
         </li>
+       
       </ul>
     </div>
   );

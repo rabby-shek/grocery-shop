@@ -1,8 +1,10 @@
 import React from "react";
 import { useCart } from "../contexts/CartContext";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import useUserAuth from "../hooks/useUserAuth";
 const CartPage = () => {
-  let navigate = useNavigate();
+ 
+  let { isAuthenticated } = useUserAuth();
   const { cart, removeFromCart, updateQuantity } = useCart();
 
   const subtotal = cart.reduce(
@@ -106,9 +108,27 @@ const CartPage = () => {
                   Total <span>${subtotal.toFixed(2)}</span>
                 </li>
               </ul>
-              <NavLink to="/checkout" className="primary-btn">
-                PROCEED TO CHECKOUT
-              </NavLink>
+              {isAuthenticated() ? (
+                cart.length > 0 ? (
+                  <NavLink to="/checkout" className="primary-btn">
+                    PROCEED TO CHECKOUT
+                  </NavLink>
+                ) : (
+                  <button
+                    className="primary-btn"
+                    onClick={() => alert("Your cart is empty.")}
+                  >
+                    PROCEED TO CHECKOUT
+                  </button>
+                )
+              ) : (
+                <button
+                  className="primary-btn"
+                  onClick={() => alert("Please login for checkout.")}
+                >
+                  PROCEED TO CHECKOUT
+                </button>
+              )}
             </div>
           </div>
         </div>

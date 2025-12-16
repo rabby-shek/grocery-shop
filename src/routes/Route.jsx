@@ -17,6 +17,7 @@ import UserLogin from "../pages/UserLogin";
 import UserRegistration from "../pages/user-auth/UserRegistration";
 import Login from "../pages/user-auth/Login";
 import VerifyOtp from "../pages/user-auth/VerifyOtp";
+import Orders from "../pages/admin/Orders";
 const Route = createBrowserRouter([
   {
     path: "/",
@@ -63,6 +64,7 @@ const Route = createBrowserRouter([
           { path: "users", element: <Users /> },
           { path: "categories", element: <Category /> },
           { path: "products", element: <Products /> },
+          { path: "orders", element: <Orders /> },
         ],
       },
     ],

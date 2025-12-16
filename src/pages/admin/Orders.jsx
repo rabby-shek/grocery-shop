@@ -1,51 +1,43 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+// Axios instance
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/auth",
+  baseURL: "http://localhost:8000/api/app",
 });
 
-const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+const Orders = () => {
+  const [orders, setOrders] = useState([]);
+
+  // Pagination
   const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const lastIndex = currentPage * itemsPerPage;
   const firstIndex = lastIndex - itemsPerPage;
-  const visibleUsers = users.slice(firstIndex, lastIndex);
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const visibleOrders = orders.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
 
+  // Fetch orders
   useEffect(() => {
-    fetchUsers();
+    fetchOrders();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchOrders = async () => {
     try {
-      const res = await api.get("/get-all-users"); // endpoint for non-admin users
+      const res = await api.get("/get-all-orders/"); // admin route or change as needed
       if (res.data.success) {
-        setUsers(res.data.users);
+        setOrders(res.data.orders);
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to fetch users");
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this user?")) return;
-
-    try {
-      await api.delete(`/delete-user/${id}`);
-      fetchUsers();
-    } catch (err) {
-      console.error(err);
-      alert("Delete failed");
+      alert("Failed to fetch orders");
     }
   };
 
   return (
     <div className="container mt-4">
-      <h3 className="mb-3">Users</h3>
+      <h3 className="mb-3">Orders</h3>
 
       <div className="card shadow-sm">
         <div className="card-body">
@@ -53,41 +45,43 @@ const Users = () => {
             <thead className="table-light">
               <tr>
                 <th>#</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Verified</th>
-                <th>Actions</th>
+                <th>User</th>
+                <th>Products</th>
+                <th>Total Amount</th>
+                <th>Payment</th>
+                <th>Date</th>
               </tr>
             </thead>
+
             <tbody>
-              {visibleUsers.length === 0 && (
+              {visibleOrders.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="text-center">
-                    No users found
+                  <td colSpan="6" className="text-center">
+                    No orders found
                   </td>
                 </tr>
               )}
-              {visibleUsers.map((user, idx) => (
-                <tr key={user._id}>
+              {visibleOrders.map((order, idx) => (
+                <tr key={order._id}>
                   <td>{firstIndex + idx + 1}</td>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.isVerified ? "Yes" : "No"}</td>
+                  <td>{order.billingDetails?.email || "Unknown"}</td>
                   <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(user._id)}
-                    >
-                      Delete
-                    </button>
+                    {order.products.map((p) => (
+                      <div key={p.productId?._id}>
+                        {p.name} x {p.quantity}
+                      </div>
+                    ))}
                   </td>
+                  <td>${order.totalAmount.toFixed(2)}</td>
+                  <td>{order.paymentMethod}</td>
+                  <td>{new Date(order.createdAt).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
           {/* Pagination */}
-          <nav className="d-flex justify-content-center">
+          <nav className="d-flex justify-content-center mt-3">
             <ul className="pagination">
               <li className={`page-item ${currentPage === 1 && "disabled"}`}>
                 <button
@@ -101,9 +95,7 @@ const Users = () => {
               {[...Array(totalPages)].map((_, i) => (
                 <li
                   key={i}
-                  className={`page-item ${
-                    currentPage === i + 1 ? "active" : ""
-                  }`}
+                  className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
                 >
                   <button
                     className="page-link"
@@ -114,11 +106,7 @@ const Users = () => {
                 </li>
               ))}
 
-              <li
-                className={`page-item ${
-                  currentPage === totalPages && "disabled"
-                }`}
-              >
+              <li className={`page-item ${currentPage === totalPages && "disabled"}`}>
                 <button
                   className="page-link"
                   onClick={() => setCurrentPage(currentPage + 1)}
@@ -134,4 +122,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Orders;
